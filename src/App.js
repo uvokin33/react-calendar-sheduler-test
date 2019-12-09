@@ -1,26 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import moment from 'moment';
+import Header from './components/Header';
+import Calendar from './components/Calendar';
+import './App.scss';
+import { MONTH_VIEW } from './constants';
 
-function App() {
+const App = () => {
+  const [date, setDate] = useState(moment());
+  const [currentView, setCurrentView] = useState(MONTH_VIEW);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <Header date={date} setDate={setDate} currentView={currentView} setCurrentView={setCurrentView} />
+      <Calendar date={date} setDate={setDate} currentView={currentView} />
     </div>
   );
-}
+};
 
 export default App;
