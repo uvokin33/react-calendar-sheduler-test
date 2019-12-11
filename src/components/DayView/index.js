@@ -2,7 +2,7 @@ import React from 'react';
 import './style.scss';
 import { range } from '../../utils';
 
-const DayView = ({ date, setDate }) => {
+const DayView = ({ date, setDate, events }) => {
 
     const content = range(0, 23).map(value => (
         <div key={value} className="hour-container">

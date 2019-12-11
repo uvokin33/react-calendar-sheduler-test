@@ -1,9 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
-import { VIEWS, MONTH_VIEW, WEEK_VIEW, DAY_VIEW } from '../../constants';
+import { VIEWS } from '../../constants';
+import Modal from '../Modal';
 import './style.scss';
+import HeaderTitle from '../HeaderTitle';
+import AddEventModal from '../AddEventModal';
 
-const Header = ({ date, setDate, currentView, setCurrentView }) => {
+const modalStyle = {
+    width: 'auto',
+    height: 'auto',
+};
+
+const Header = ({ 
+    date, 
+    setDate, 
+    currentView, 
+    setCurrentView,
+    events, 
+    setEvents, 
+}) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleOnNext = () => {
         setDate(moment(date).add(1, currentView));
@@ -13,17 +29,11 @@ const Header = ({ date, setDate, currentView, setCurrentView }) => {
         setDate(moment(date).subtract(1, currentView));
     }
 
-    let title = '';
-    
-    if (currentView === MONTH_VIEW) {
-        title = moment(date).format('MMMM YYYY');
-    } else if (currentView === WEEK_VIEW) {
-        const endDate = moment(date).startOf('week').add(1, 'weeks').subtract(1, 'days');
-        const endWeek = endDate._d;
-        const startWeek = moment(endWeek).subtract(6, 'days');
-        title = `${moment(startWeek).format('D MMMM YYYY')} - ${moment(endWeek).format('D MMMM YYYY')}`;
-    } else if (currentView === DAY_VIEW) {
-        title = moment(date).format('D MMMM YYYY');
+    const handleOnChangeView = (view) => {
+        setDate(moment());
+        if (view !== currentView) {
+            setCurrentView(view);
+        }
     }
 
     return (
@@ -33,7 +43,7 @@ const Header = ({ date, setDate, currentView, setCurrentView }) => {
                     <button 
                         key={value} 
                         className={`${value}-button ${value === currentView ? 'current' : ''}`}
-                        onClick={() => setCurrentView(value)}
+                        onClick={() => handleOnChangeView(value)}
                     >
                         {`${value[0].toUpperCase()}${value.substring(1)}`}
                     </button>
@@ -41,12 +51,15 @@ const Header = ({ date, setDate, currentView, setCurrentView }) => {
             </div>
             <div className="header-container center">
                 <button className="prev-button" onClick={handleOnPrev}>{'<'}</button>
-                <p>{title}</p>
+                <HeaderTitle currentView={currentView} date={date} setDate={setDate} />
                 <button className="next-button" onClick={handleOnNext}>{'>'}</button>
             </div>
             <div className="header-container right">
-                <button className="add-event-button">+ Add Event</button>
+                <button className="add-event-button" onClick={() => setIsModalOpen(true)}>+ Add Event</button>
             </div>
+            <Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen} modalStyle={modalStyle} >
+                <AddEventModal events={events} setEvents={setEvents} setIsOpen={setIsModalOpen} />
+            </Modal>
         </div>
     )
 };

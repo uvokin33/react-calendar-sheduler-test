@@ -1,8 +1,10 @@
 .month-view {
 
-    display: grid;
-    grid-template-columns: repeat(7, auto);
-    margin: 10px;
+    .month-content {
+        display: grid;
+        grid-template-columns: repeat(7, auto);
+        margin: 10px;
+    } 
 
     .header, 
     .container {
@@ -15,5 +17,14 @@
         margin: 0;
         text-align: center;
         transform: translateY(-50%);
+    }
+
+    .month-title {
+        text-align: center;
+        
+        p {
+            display: initial;
+            margin: 0 8px;
+        }   
     }
 }

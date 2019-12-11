@@ -7,12 +7,26 @@ import { MONTH_VIEW } from './constants';
 
 const App = () => {
   const [date, setDate] = useState(moment());
+  const [events, setEvents] = useState([]);
   const [currentView, setCurrentView] = useState(MONTH_VIEW);
 
   return (
     <div className="app">
-      <Header date={date} setDate={setDate} currentView={currentView} setCurrentView={setCurrentView} />
-      <Calendar date={date} setDate={setDate} currentView={currentView} />
+      <Header 
+        date={date} 
+        setDate={setDate} 
+        currentView={currentView} 
+        setCurrentView={setCurrentView} 
+        events={events} 
+        setEvents={setEvents} 
+      />
+      <Calendar 
+        date={date} 
+        setDate={setDate} 
+        currentView={currentView} 
+        setCurrentView={setCurrentView} 
+        events={events}
+      />
     </div>
   );
 };

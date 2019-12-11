@@ -1,0 +1,23 @@
+.add-event-content {
+    display: flex;
+    justify-content: center;
+    max-height: 30px;
+    padding-bottom: 10px;
+
+    p {
+        margin: 0;
+        margin-right: 10px;
+    }
+
+    input {
+        margin-right: 10px;
+    }
+
+    &.right {
+        justify-content: flex-end;
+    }
+
+    .error {
+        color: #ff0000;
+    }
+}
