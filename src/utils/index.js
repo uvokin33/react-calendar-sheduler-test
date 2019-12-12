@@ -11,6 +11,23 @@ export const getDayInWeek = (day) => {
     return result;
 };
 
+export const getCurrentDayEvents = (events, currentDate) => 
+    events.map(value => {
+        const eventDate = value.start;
+        if (
+            eventDate.isSame(currentDate, 'year') && 
+            eventDate.isSame(currentDate, 'month') && 
+            eventDate.isSame(currentDate, 'day')
+        ) {
+            return value;
+        }
+        return undefined;
+    }).filter(value => value);
+
+export const isMonthCurrent = (date) =>
+    moment(date).isSame(moment(), 'year') && 
+    moment(date).isSame(moment(), 'month');
+
 export const getRandomFromArray = (array) => 
     array[Math.floor((Math.random() * array.length))];
 

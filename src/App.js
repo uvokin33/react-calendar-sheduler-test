@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import Header from './components/Header';
 import Calendar from './components/Calendar';
-import './App.scss';
 import { MONTH_VIEW } from './constants';
+import './App.scss';
 
 const App = () => {
   const [date, setDate] = useState(moment());

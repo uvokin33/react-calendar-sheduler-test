@@ -6,11 +6,15 @@
         display: grid;
         grid-template-columns: 120px auto;
         border: 1px solid #000;
+        height: 40px;
 
         .title {
+            position: relative;
             text-align: center;
+            top: 50%;
             border-right: 1px solid #000;
             margin-right: 10px;
+            transform: translateY(-50%);
         }
     }
 

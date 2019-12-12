@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Tooltip from '../Tooltip';
+import { getClassNames } from '../../utils';
+import { EVENT_TITLE_FORMAT } from '../../constants';
 import './style.scss';
 
-const Event = ({ event }) => {
+const Event = ({ event, day, style }) => {
+    const { title, description, start, end, color } = event;
     const [isShowTooltip, setIsShowTooltip] = useState(false);
+
+    const mainStyle = {backgroundColor: color, ...style};
+
+    const eventTitle = `${title} ${start.format(EVENT_TITLE_FORMAT)} - ${end.format(EVENT_TITLE_FORMAT)}`;
 
     const toggleTooltip = () => {
         setIsShowTooltip(prevState => !prevState);
@@ -11,15 +18,18 @@ const Event = ({ event }) => {
 
     return (
         <div 
-            className="event" 
-            style={{backgroundColor: event.color}}
+            className={getClassNames({
+                "event": true,
+                "day-event": day,
+            })} 
+            style={mainStyle}
             onMouseEnter={() => toggleTooltip()}
             onMouseLeave={() => toggleTooltip()}
         >
-            {event.description && <Tooltip isShow={isShowTooltip}> 
-                <p>{event.description}</p>
+            {description && <Tooltip isShow={isShowTooltip}> 
+                <p>{description}</p>
             </Tooltip>}
-            {event.title}
+            {eventTitle}
         </div>
     );
 };

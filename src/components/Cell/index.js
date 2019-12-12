@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import Event from '../Event';
 import './style.scss';
-import { getDayInWeek, getClassNames } from '../../utils';
+import { getDayInWeek, getClassNames, getCurrentDayEvents } from '../../utils';
 import { WEEKEND_DAYS_INDEXES, SHOW_EVENTS_IN_CELL } from '../../constants';
 
 const Cell = ({ 
@@ -40,17 +40,7 @@ const Cell = ({
     const content = [];
     
     if (events && !calendar) {        
-        const currentDayEvents = [];
-        events.forEach(value => {
-            const eventDate = value.start;
-            if (
-                eventDate.isSame(returnDate, 'year') && 
-                eventDate.isSame(returnDate, 'month') && 
-                eventDate.isSame(returnDate, 'day')
-            ) {
-                currentDayEvents.push(value);
-            }
-        });
+        const currentDayEvents = getCurrentDayEvents(events, returnDate);
 
         const dayEventsLength = currentDayEvents.length;
         if (dayEventsLength) {

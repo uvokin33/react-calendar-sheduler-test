@@ -1,7 +1,7 @@
 import React from 'react';
 import { WEEK_DAY_TITLES, DAY_VIEW } from '../../constants';
 import Cell from '../Cell';
-import { range } from '../../utils';
+import { range, isMonthCurrent } from '../../utils';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import './style.scss';
@@ -14,12 +14,10 @@ const Week = ({ date, setDate, setCurrentView, events }) => {
 
     const currentDay = moment().date();
     
-    const isCurrentMonth = 
-        moment(date).isSame(moment(), 'year') && 
-        moment(date).isSame(moment(), 'month');
+    const isCurrentMonth = isMonthCurrent(date);
 
     const header = WEEK_DAY_TITLES.map((value, index) => 
-        <Cell label={value} day={index} header/>
+        <Cell key={value} label={value} day={index} header/>
     );
 
     const handleOnSelectDay = (value) => {

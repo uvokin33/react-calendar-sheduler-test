@@ -7,6 +7,7 @@ import {
     WEEK_VIEW,
     DAY_VIEW,
 } from '../../constants';
+import { getCurrentDayEvents } from '../../utils';
 
 const Calendar = ({ 
     date, 
@@ -21,7 +22,7 @@ const Calendar = ({
     } else if (currentView === WEEK_VIEW) {
         view = <Week date={date} setDate={setDate} setCurrentView={setCurrentView} events={events} />
     } else if (currentView === DAY_VIEW) {
-        view = <Day date={date} setDate={setDate} events={events} />
+        view = <Day events={getCurrentDayEvents(events, date)} />
     }
 
     return (

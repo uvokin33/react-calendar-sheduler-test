@@ -11,7 +11,7 @@ import {
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import './style.scss';
-import { getRandomFromArray } from '../../utils';
+import { getRandomFromArray, getCurrentDayEvents } from '../../utils';
 
 const moment = extendMoment(Moment);
 
@@ -38,7 +38,7 @@ const AddEventModal = ({ events, setEvents, setIsOpen }) => {
     }
 
     const handleOnAddEvent = (e) => {
-        const sameDayEvents = [];
+        const sameDayEvents = getCurrentDayEvents(events, event.date);
         let isError = false;
         
         const startDate = moment(event.date).set({ 
@@ -48,17 +48,6 @@ const AddEventModal = ({ events, setEvents, setIsOpen }) => {
         const endDate = moment(event.date).set({ 
             hour: event.to_h, 
             minute: event.to_m,
-        });
-
-        events.forEach(value => {
-            const eventDate = value.start;
-            if (
-                eventDate.isSame(event.date, 'year') && 
-                eventDate.isSame(event.date, 'month') && 
-                eventDate.isSame(event.date, 'day')
-            ) {
-                sameDayEvents.push(value);
-            }
         });
 
         if (!event.title) {

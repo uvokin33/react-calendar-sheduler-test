@@ -8,7 +8,7 @@ import {
     WEEK_DAY_SHORT_TITLES, 
     CALENDAR_FORMAT 
 } from '../../constants';
-import { range, getFirstDayInMonth } from '../../utils';
+import { range, getFirstDayInMonth, isMonthCurrent } from '../../utils';
 import './style.scss';
 
 const Month = ({ 
@@ -34,9 +34,7 @@ const Month = ({
     const daysInPrevMonth = moment(date).subtract(1, 'month').daysInMonth();
     const currentDay = moment().date();
     
-    const isCurrentMonth = 
-        moment(date).isSame(moment(), 'year') && 
-        moment(date).isSame(moment(), 'month');
+    const isCurrentMonth = isMonthCurrent(date);
 
     const titles = calendar ? WEEK_DAY_SHORT_TITLES : WEEK_DAY_TITLES;
 
@@ -45,15 +43,21 @@ const Month = ({
     if (calendar) {
         title = (
             <div className="month-title">
-                <button className="month-prev" onClick={() => setDate(moment(date).subtract(1, 'month'))}>{'<'}</button>
+                <button 
+                    className="month-prev" 
+                    onClick={() => setDate(moment(date).subtract(1, 'month'))}
+                >{'<'}</button>
                 <p onClick={() => setDate(moment())}>{date.format(CALENDAR_FORMAT)}</p>
-                <button className="month-next" onClick={() => setDate(moment(date).add(1, 'month'))}>{'>'}</button>
+                <button 
+                    className="month-next" 
+                    onClick={() => setDate(moment(date).add(1, 'month'))}
+                >{'>'}</button>
             </div>
         );
     }
 
     const header = titles.map((value, index) => 
-        <Cell label={value} day={index} calendar={calendar} header/>
+        <Cell key={value} label={value} day={index} calendar={calendar} header/>
     );
 
     const handleOnSelectDay = (value) => {
