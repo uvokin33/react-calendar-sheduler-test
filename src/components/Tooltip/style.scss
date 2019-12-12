@@ -1,0 +1,19 @@
+.tooltip {
+    position: relative;
+    display: inline-block;
+    left: 50%;
+    
+    .tooltip-content {
+        position: absolute;
+        padding: 2px 10px;
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: #ededed;
+        width: auto;
+        min-width: 100px;
+        font-size: 12px;
+        box-sizing: border-box;
+        box-shadow: 1px 1px 10px #777;
+        z-index: 200;
+    }
+}

@@ -18,11 +18,9 @@ const Week = ({ date, setDate, setCurrentView, events }) => {
         moment(date).isSame(moment(), 'year') && 
         moment(date).isSame(moment(), 'month');
 
-    const header = WEEK_DAY_TITLES.map(value => (
-        <div key={value} className="view-header cell">
-            <p>{value}</p>
-        </div>
-    ));
+    const header = WEEK_DAY_TITLES.map((value, index) => 
+        <Cell label={value} day={index} header/>
+    );
 
     const handleOnSelectDay = (value) => {
         setCurrentView(DAY_VIEW);

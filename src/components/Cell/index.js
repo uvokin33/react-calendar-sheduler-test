@@ -2,6 +2,8 @@ import React from 'react';
 import moment from 'moment';
 import Event from '../Event';
 import './style.scss';
+import { getDayInWeek, getClassNames } from '../../utils';
+import { WEEKEND_DAYS_INDEXES, SHOW_EVENTS_IN_CELL } from '../../constants';
 
 const Cell = ({ 
     date, 
@@ -13,6 +15,8 @@ const Cell = ({
     onClick,
     calendar,
     events,
+    header,
+    label,
 }) => {
     const returnDate = moment(date).set({
         'date': day, 
@@ -21,23 +25,21 @@ const Cell = ({
         'second': 0,
     });
 
-    let mainClassName = 'cell ';
-    if ((parseInt(day) === parseInt(currentDay)) && isCurrentMonth) {
-        mainClassName += 'current-day ';
-    }
-    if (isPrevOrNextMonth) {
-        mainClassName += 'not-current-month ';
-    }
-    if (fullHeight) {
-        mainClassName += 'full-height '
-    }
-    if (calendar) {
-        mainClassName += 'calendar '
-    }
+    const dayInWeek = header ? day : getDayInWeek(moment(returnDate).day());
+
+    const mainClassName = getClassNames({
+        'cell': true,
+        'current-day': (parseInt(day) === parseInt(currentDay)) && isCurrentMonth,
+        'not-current-month': isPrevOrNextMonth,
+        'full-height': fullHeight,
+        'calendar': calendar,
+        'weekend': calendar && WEEKEND_DAYS_INDEXES.includes(dayInWeek),
+        'view-header': header,    
+    });
 
     const content = [];
     
-    if (events) {        
+    if (events && !calendar) {        
         const currentDayEvents = [];
         events.forEach(value => {
             const eventDate = value.start;
@@ -53,26 +55,32 @@ const Cell = ({
         const dayEventsLength = currentDayEvents.length;
         if (dayEventsLength) {
             currentDayEvents.forEach((value, index) => {
-                let showEvents = 3; 
-                if (dayEventsLength > 3) {
-                    showEvents = 2;
+                let showEvents = SHOW_EVENTS_IN_CELL; 
+                if (dayEventsLength > SHOW_EVENTS_IN_CELL) {
+                    showEvents = SHOW_EVENTS_IN_CELL - 1;
                 }
                 if (index < showEvents || fullHeight) {
                     content.push(<Event key={index} event={value} />);
                 }
             });
-            if (dayEventsLength > 3 && !fullHeight) {
-                content.push(<button key="button">{`+ ${dayEventsLength - 2}`}</button>);
+            if (dayEventsLength > SHOW_EVENTS_IN_CELL && !fullHeight) {
+                content.push(<button key="button">{`+ ${dayEventsLength - (SHOW_EVENTS_IN_CELL - 1)}`}</button>);
             }
         }
     }
 
+    const isCalendarDiffMonth = (calendar && !isPrevOrNextMonth) || !calendar;
+
     return (
         <div 
-            className={mainClassName} onClick={() => onClick(returnDate)}>
-            <div className="cell-header">
-                {day}
-            </div>
+            className={mainClassName} onClick={() => {
+                if (onClick) {
+                    onClick(returnDate);
+                }
+            }}>
+            {isCalendarDiffMonth && <div className="cell-header">
+                {label || day}
+            </div>}
             {!calendar && <div className="cell-content">
                 {content}
             </div>}

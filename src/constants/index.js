@@ -5,6 +5,12 @@ moment.locale('en-GB');
 
 export const TOTAL_CELLS = 42;
 
+export const SHOW_EVENTS_IN_CELL = 2;
+
+export const EVENT_BACKGROUND_COLOR = ['#e892e6', '#a0a9ea', '#81e09a'];
+
+export const WEEKEND_DAYS_INDEXES = [5, 6];
+
 export const WEEKS_MODIFICATOR = [-1, 0, 1, 2, 3];
 
 export const TITLE_FORMAT = 'D MMMM YYYY';

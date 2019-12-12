@@ -1,11 +1,24 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import Cell from '../Cell';
-import { WEEK_DAY_TITLES, TOTAL_CELLS, DAY_VIEW, WEEK_DAY_SHORT_TITLES, CALENDAR_FORMAT } from '../../constants';
+import { 
+    WEEK_DAY_TITLES, 
+    TOTAL_CELLS, 
+    DAY_VIEW, 
+    WEEK_DAY_SHORT_TITLES, 
+    CALENDAR_FORMAT 
+} from '../../constants';
 import { range, getFirstDayInMonth } from '../../utils';
 import './style.scss';
 
-const Month = ({ date: propDate, setDate: setPropDate, setCurrentView, calendar, onClickDay, events }) => {
+const Month = ({ 
+    date: propDate, 
+    setDate: setPropDate, 
+    setCurrentView, 
+    calendar, 
+    onClickDay, 
+    events 
+}) => {
     const [localDate, setLocalDate] = useState(moment(propDate));
 
     let date = localDate;
@@ -29,8 +42,6 @@ const Month = ({ date: propDate, setDate: setPropDate, setCurrentView, calendar,
 
     let title = null;
 
-    let headerClass = 'view-header cell ';
-
     if (calendar) {
         title = (
             <div className="month-title">
@@ -39,14 +50,11 @@ const Month = ({ date: propDate, setDate: setPropDate, setCurrentView, calendar,
                 <button className="month-next" onClick={() => setDate(moment(date).add(1, 'month'))}>{'>'}</button>
             </div>
         );
-        headerClass += 'calendar ';
     }
 
-    const header = titles.map(value => (
-        <div key={value} className={headerClass} >
-            <p>{value}</p>
-        </div>
-    ));
+    const header = titles.map((value, index) => 
+        <Cell label={value} day={index} calendar={calendar} header/>
+    );
 
     const handleOnSelectDay = (value) => {
         if (onClickDay) {
@@ -58,7 +66,7 @@ const Month = ({ date: propDate, setDate: setPropDate, setCurrentView, calendar,
     };
 
     range(daysInPrevMonth - getFirstDayInMonth(date), daysInPrevMonth - 1).forEach(value => days.push(
-        <Cell key={value} date={date} day={value + 1} isPrevOrNextMonth calendar={calendar} />
+        <Cell key={value} date={moment(date).subtract(1, 'month')} day={value + 1} isPrevOrNextMonth calendar={calendar} />
     )); 
 
     range(1, daysInMonth).forEach(value => days.push(
@@ -75,7 +83,7 @@ const Month = ({ date: propDate, setDate: setPropDate, setCurrentView, calendar,
     ));
 
     range(1, TOTAL_CELLS - days.length).forEach(value => days.push(
-        <Cell key={value} date={date} day={value} isPrevOrNextMonth calendar={calendar} />
+        <Cell key={value} date={moment(date).add(1, 'month')} day={value} isPrevOrNextMonth calendar={calendar} />
     ));
 
     return (

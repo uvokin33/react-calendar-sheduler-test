@@ -6,10 +6,12 @@ import {
     ERROR_MESSAGE_EMPTY_TITLE,
     ERROR_MESSAGE_END_LESS_START_TIME,
     ERROR_MESSAGE_EVENTS_INTERSECTS,
+    EVENT_BACKGROUND_COLOR,
 } from '../../constants';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import './style.scss';
+import { getRandomFromArray } from '../../utils';
 
 const moment = extendMoment(Moment);
 
@@ -80,6 +82,7 @@ const AddEventModal = ({ events, setEvents, setIsOpen }) => {
                 description: event.description || '',
                 start: startDate,
                 end: endDate,
+                color: getRandomFromArray(EVENT_BACKGROUND_COLOR),
             };
             setEvents(prevState => ([...prevState, newEvent]));
             setIsOpen(false);

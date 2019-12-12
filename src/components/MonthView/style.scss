@@ -11,17 +11,9 @@
         display: contents;
     }
 
-    .view-header p {
-        position: relative;
-        top: 50%;
-        margin: 0;
-        text-align: center;
-        transform: translateY(-50%);
-    }
-
     .month-title {
         text-align: center;
-        
+
         p {
             display: initial;
             margin: 0 8px;
