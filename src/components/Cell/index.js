@@ -1,9 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 import Event from '../Event';
-import './style.scss';
 import { getDayInWeek, getClassNames, getCurrentDayEvents } from '../../utils';
 import { WEEKEND_DAYS_INDEXES, SHOW_EVENTS_IN_CELL } from '../../constants';
+import './style.scss';
 
 const Cell = ({ 
     date, 
@@ -54,7 +54,11 @@ const Cell = ({
                 }
             });
             if (dayEventsLength > SHOW_EVENTS_IN_CELL && !fullHeight) {
-                content.push(<button key="button">{`+ ${dayEventsLength - (SHOW_EVENTS_IN_CELL - 1)}`}</button>);
+                content.push(
+                    <button key="button">
+                        {`+ ${dayEventsLength - (SHOW_EVENTS_IN_CELL - 1)}`}
+                    </button>
+                );
             }
         }
     }

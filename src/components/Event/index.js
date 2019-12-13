@@ -10,7 +10,8 @@ const Event = ({ event, day, style }) => {
 
     const mainStyle = {backgroundColor: color, ...style};
 
-    const eventTitle = `${title} ${start.format(EVENT_TITLE_FORMAT)} - ${end.format(EVENT_TITLE_FORMAT)}`;
+    const eventTitle = 
+        `${title} ${start.format(EVENT_TITLE_FORMAT)} - ${end.format(EVENT_TITLE_FORMAT)}`;
 
     const toggleTooltip = () => {
         setIsShowTooltip(prevState => !prevState);

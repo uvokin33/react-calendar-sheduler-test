@@ -5,6 +5,7 @@ import Modal from '../Modal';
 import './style.scss';
 import HeaderTitle from '../HeaderTitle';
 import AddEventModal from '../AddEventModal';
+import { getClassNames } from '../../utils';
 
 const modalStyle = {
     width: 'auto',
@@ -42,7 +43,10 @@ const Header = ({
                 {VIEWS.map(value => (
                     <button 
                         key={value} 
-                        className={`${value}-button ${value === currentView ? 'current' : ''}`}
+                        className={getClassNames({
+                            [`${value}-button`]: true,
+                            'current': value === currentView, 
+                        })}
                         onClick={() => handleOnChangeView(value)}
                     >
                         {`${value[0].toUpperCase()}${value.substring(1)}`}

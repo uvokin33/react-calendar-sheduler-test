@@ -10,8 +10,8 @@ import {
     TITLE_FORMAT, 
     WEEKS_FORMAT
 } from '../../constants';
-import './style.scss';
 import Month from '../MonthView';
+import './style.scss';
 
 const modalStyle = {
     width: 'auto',

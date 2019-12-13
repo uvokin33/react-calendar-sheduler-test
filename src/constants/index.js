@@ -9,7 +9,11 @@ export const MINUTE_HEIGHT = 42 / 60;
 
 export const SHOW_EVENTS_IN_CELL = 2;
 
-export const EVENT_BACKGROUND_COLOR = ['#e892e6', '#a0a9ea', '#81e09a'];
+export const EVENT_BACKGROUND_COLOR = [
+    '#e892e6', 
+    '#a0a9ea', 
+    '#81e09a',
+];
 
 export const WEEKEND_DAYS_INDEXES = [5, 6];
 
@@ -22,9 +26,12 @@ export const EVENT_TITLE_FORMAT = 'HH.mm';
 
 export const DEFAULT_EVENT_TIME = '00:00';
 
-export const ERROR_MESSAGE_EMPTY_TITLE = 'You must fill the title field.';
-export const ERROR_MESSAGE_END_LESS_START_TIME = 'End time must be greater than start time.';
-export const ERROR_MESSAGE_EVENTS_INTERSECTS = 'Current event time intersects with another event.';
+export const ERROR_MESSAGE_EMPTY_TITLE = 
+    'You must fill the title field.';
+export const ERROR_MESSAGE_END_LESS_START_TIME = 
+    'End time must be greater than start time.';
+export const ERROR_MESSAGE_EVENTS_INTERSECTS = 
+    'Current event time intersects with another event.';
 
 export const MONTH_VIEW = 'month';
 export const WEEK_VIEW = 'week';

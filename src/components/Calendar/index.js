@@ -18,9 +18,19 @@ const Calendar = ({
 }) => {
     let view = null;
     if (currentView === MONTH_VIEW) {
-        view = <Month date={date} setDate={setDate} setCurrentView={setCurrentView} events={events} />
+        view = <Month 
+                    date={date} 
+                    setDate={setDate} 
+                    setCurrentView={setCurrentView} 
+                    events={events} 
+                />
     } else if (currentView === WEEK_VIEW) {
-        view = <Week date={date} setDate={setDate} setCurrentView={setCurrentView} events={events} />
+        view = <Week 
+                    date={date} 
+                    setDate={setDate} 
+                    setCurrentView={setCurrentView} 
+                    events={events} 
+                />
     } else if (currentView === DAY_VIEW) {
         view = <Day events={getCurrentDayEvents(events, date)} />
     }

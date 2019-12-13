@@ -70,7 +70,13 @@ const Month = ({
     };
 
     range(daysInPrevMonth - getFirstDayInMonth(date), daysInPrevMonth - 1).forEach(value => days.push(
-        <Cell key={value} date={moment(date).subtract(1, 'month')} day={value + 1} isPrevOrNextMonth calendar={calendar} />
+        <Cell 
+            key={value} 
+            date={moment(date).subtract(1, 'month')} 
+            day={value + 1} 
+            isPrevOrNextMonth 
+            calendar={calendar} 
+        />
     )); 
 
     range(1, daysInMonth).forEach(value => days.push(
@@ -87,7 +93,13 @@ const Month = ({
     ));
 
     range(1, TOTAL_CELLS - days.length).forEach(value => days.push(
-        <Cell key={value} date={moment(date).add(1, 'month')} day={value} isPrevOrNextMonth calendar={calendar} />
+        <Cell 
+            key={value} 
+            date={moment(date).add(1, 'month')} 
+            day={value} 
+            isPrevOrNextMonth 
+            calendar={calendar} 
+        />
     ));
 
     return (
