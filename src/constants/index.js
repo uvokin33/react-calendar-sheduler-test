@@ -20,6 +20,8 @@ export const WEEKS_FORMAT = 'DD.MM.YYYY';
 export const CALENDAR_FORMAT = 'MMM YYYY';
 export const EVENT_TITLE_FORMAT = 'HH.mm';
 
+export const DEFAULT_EVENT_TIME = '00:00';
+
 export const ERROR_MESSAGE_EMPTY_TITLE = 'You must fill the title field.';
 export const ERROR_MESSAGE_END_LESS_START_TIME = 'End time must be greater than start time.';
 export const ERROR_MESSAGE_EVENTS_INTERSECTS = 'Current event time intersects with another event.';

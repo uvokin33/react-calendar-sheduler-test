@@ -7,11 +7,12 @@ import {
     ERROR_MESSAGE_END_LESS_START_TIME,
     ERROR_MESSAGE_EVENTS_INTERSECTS,
     EVENT_BACKGROUND_COLOR,
+    DEFAULT_EVENT_TIME,
 } from '../../constants';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
-import './style.scss';
 import { getRandomFromArray, getCurrentDayEvents } from '../../utils';
+import './style.scss';
 
 const moment = extendMoment(Moment);
 
@@ -19,14 +20,14 @@ const modalStyle = {
     width: '300px',
 }
 
+const TIME_FIELDS = ['from', 'to'];
+
 const AddEventModal = ({ events, setEvents, setIsOpen }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [event, setEvent] = useState({
         date: moment(),
-        from_h: 0,
-        from_m: 0,
-        to_h: 0,
-        to_m: 0,
+        from: DEFAULT_EVENT_TIME,
+        to: DEFAULT_EVENT_TIME,
     });
     const [error, setError] = useState(null);
 
@@ -38,19 +39,23 @@ const AddEventModal = ({ events, setEvents, setIsOpen }) => {
     }
 
     const handleOnAddEvent = (e) => {
-        const sameDayEvents = getCurrentDayEvents(events, event.date);
+        const { title, description, date, from, to } = event; 
+        const sameDayEvents = getCurrentDayEvents(events, date);
         let isError = false;
         
-        const startDate = moment(event.date).set({ 
-            hour: event.from_h, 
-            minute: event.from_m, 
+        let timeFrom = from.split(':');
+        let timeTo = to.split(':');
+        
+        const startDate = moment(date).set({ 
+            hour: timeFrom[0], 
+            minute: timeFrom[1], 
         });
-        const endDate = moment(event.date).set({ 
-            hour: event.to_h, 
-            minute: event.to_m,
+        const endDate = moment(date).set({ 
+            hour: timeTo[0], 
+            minute: timeTo[1],
         });
 
-        if (!event.title) {
+        if (!title) {
             isError = showError(ERROR_MESSAGE_EMPTY_TITLE, e);
         } else if (startDate.isSameOrAfter(endDate)) {
             isError = showError(ERROR_MESSAGE_END_LESS_START_TIME, e);
@@ -67,13 +72,14 @@ const AddEventModal = ({ events, setEvents, setIsOpen }) => {
 
         if (!isError) {
             const newEvent = {
-                title: event.title,
-                description: event.description || '',
+                title,
+                description: description || '',
                 start: startDate,
                 end: endDate,
                 color: getRandomFromArray(EVENT_BACKGROUND_COLOR),
             };
-            setEvents(prevState => ([...prevState, newEvent]));
+            setEvents(prevState => ([...prevState, newEvent].sort((a, b) => 
+                a.start.valueOf() - b.start.valueOf())));
             setIsOpen(false);
         }
     }
@@ -81,9 +87,13 @@ const AddEventModal = ({ events, setEvents, setIsOpen }) => {
     const handleOnChange = (field, e) => {
         const { target } = e;
         if (target) {
+            let value = target.value;
+            if (!value && TIME_FIELDS.includes(field)) {
+                value = DEFAULT_EVENT_TIME;
+            }
             setEvent(prevState => ({
                 ...prevState, 
-                [field]: target.value
+                [field]: value,
             }));
         }
     } 
@@ -125,35 +135,23 @@ const AddEventModal = ({ events, setEvents, setIsOpen }) => {
             <div className="add-event-content add-event-content__time-from">
                 <p>Time from</p>
                 <input 
-                    type="number" 
-                    placeholder={0} 
-                    max={23} 
-                    min={0} 
-                    onChange={e => handleOnChange('from_h', e)}
-                />
-                <input 
-                    type="number" 
-                    placeholder={0} 
-                    max={59} 
-                    min={0} 
-                    onChange={e => handleOnChange('from_m', e)}
+                    type="time" 
+                    placeholder="00:00" 
+                    min="00:00"
+                    max="23:59" 
+                    value={event.from} 
+                    onChange={e => handleOnChange('from', e)}
                 />
             </div>
             <div className="add-event-content add-event-content__time-to">
                 <p>Time to</p>
                 <input 
-                    type="number" 
-                    placeholder={0} 
-                    max={23} 
-                    min={0} 
-                    onChange={e => handleOnChange('to_h', e)}
-                />
-                <input 
-                    type="number" 
-                    placeholder={0} 
-                    max={59} 
-                    min={0} 
-                    onChange={e => handleOnChange('to_m', e)}
+                    type="time" 
+                    placeholder="00:00" 
+                    min="00:00" 
+                    max="23:59" 
+                    value={event.to} 
+                    onChange={e => handleOnChange('to', e)}
                 />
             </div>
             <div className="add-event-content add-event-content__error right">
